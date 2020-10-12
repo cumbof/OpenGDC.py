@@ -14,5 +14,5 @@ assets:
   ncbi: 
     history: "./assets/gene_history.txt.bz2"                  # NCBI Deprecated Genese
     reference: "./assets/ref_GRCh38.p2_top_level.gff3.bz2"    # NCBI Genes Annotations GRCh38
-  hugo: "./assets/hgnc_complete_set.txt.bz2"                  # GeneNames (HUGO) Annotations
+  hgnc: "./assets/hgnc_complete_set.txt.bz2"                  # HUGO Gene Nomenclature Committee Annotations
 ...

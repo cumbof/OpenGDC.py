@@ -7,7 +7,7 @@ __date__ = 'Oct 10, 2020'
 import os, requests, utils
 import driver.gencode as gencode
 import driver.ncbi as ncbi
-import driver.hugo as hugo
+import driver.hgnc as hgnc
 
 # header.schema definition
 def dump_schema( convert_dir ):
@@ -110,7 +110,7 @@ def convert( datatype, filepath, outdir, settings, resources={ }, verbose=False 
                     cgi_coordinate = line_split[ 9 ]
                     feature_type = line_split[ 10 ]
                     
-                    # Enxtend info by querying Gencode, NCBI, and HUGO
+                    # Enxtend info by querying Gencode, NCBI, and HGNC
                     fieldsmap, resources = extract_fields( chromosome, gene_symbols_comp, start, end, gene_types_comp,
                                                            transcript_ids_comp, positions_to_tss_comp, settings, 
                                                            resources=resources )
@@ -163,7 +163,7 @@ def convert( datatype, filepath, outdir, settings, resources={ }, verbose=False 
         return True, bed_filepath, resources
     return False, None, resources
 
-# Extract significant info and extend data by querying Gencode, NCBI, and HUGO
+# Extract significant info and extend data by querying Gencode, NCBI, and HGNC
 def extract_fields( chromosome, gene_symbols_comp, start_site, end_site, gene_types_comp,
                     transcript_ids_comp, positions_to_tss_comp, settings, resources={ } ):
     result = { }
@@ -227,8 +227,8 @@ def extract_fields( chromosome, gene_symbols_comp, start_site, end_site, gene_ty
                                                       gene )
                 # If not in NCBI
                 if entrez is None:
-                    # Trying to retrive the entrez_id from GeneNames (HUGO) by gene symbol
-                    entrez = hugo.get_entrez_from_symbol( resources[ "HUGO" ], gene )
+                    # Trying to retrive the entrez_id from GeneNames (HGNC) by gene symbol
+                    entrez = hgnc.get_entrez_from_symbol( resources[ "HGNC" ], gene )
                     if entrez is None:
                         entrez = ""
         

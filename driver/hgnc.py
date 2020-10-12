@@ -6,7 +6,7 @@ __date__ = 'Oct 10, 2020'
 
 import os, bz2
 
-# Load the HUGO DB in memory
+# Load the HGNC DB in memory
 def get_symbol_entrez_map( filepath ):
     symbol2entrez = { }
     # Read the flat file line by line
@@ -21,7 +21,7 @@ def get_symbol_entrez_map( filepath ):
                 symbol2entrez[ symbol ] = entrez
     return symbol2entrez
 
-# Check whether a gene symbol is in HUGO DB
+# Check whether a gene symbol is in HGNC DB
 def get_entrez_from_symbol( symbol2entrez, symbol_from_gencode ):
     if symbol2entrez:
         if symbol_from_gencode.strip().lower() in symbol2entrez:

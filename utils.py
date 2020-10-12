@@ -12,7 +12,7 @@ import parser.methylation as methylation
 # Load drivers for external assets
 import driver.gencode as gencode
 import driver.ncbi as ncbi
-import driver.hugo as hugo
+import driver.hgnc as hgnc
 
 # Define the set of available parsers
 PARSERS = {
@@ -191,9 +191,9 @@ def load_resources( datatype, settings, verbose=False ):
             "Deprecated": ncbi.get_deprecated_symbol_entrez_map( settings[ 'assets' ][ 'ncbi' ][ 'history' ] )
         }
         if verbose:
-            print( "\tLoading HUGO local DB" )
-        # Load HUGO database
-        resources[ "HUGO" ] = hugo.get_symbol_entrez_map( settings[ 'assets' ][ 'hugo' ] )
+            print( "\tLoading HGNC local DB" )
+        # Load HGNC database
+        resources[ "HGNC" ] = hgnc.get_symbol_entrez_map( settings[ 'assets' ][ 'hgnc' ] )
     return resources
 
 # Dump the header.schema with the definition of the fields in the converted files

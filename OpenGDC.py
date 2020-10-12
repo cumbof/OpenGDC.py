@@ -67,7 +67,7 @@ if __name__ == '__main__':
     settings[ "assets" ][ "gencode" ] = os.path.abspath( settings[ "assets" ][ "gencode" ] )
     settings[ "assets" ][ "ncbi" ][ "history" ] = os.path.abspath( settings[ "assets" ][ "ncbi" ][ "history" ] )
     settings[ "assets" ][ "ncbi" ][ "reference" ] = os.path.abspath( settings[ "assets" ][ "ncbi" ][ "reference" ] )
-    settings[ "assets" ][ "hugo" ] = os.path.abspath( settings[ "assets" ][ "hugo" ] )
+    settings[ "assets" ][ "hgnc" ] = os.path.abspath( settings[ "assets" ][ "hgnc" ] )
 
     # Init list of downloaded files
     downloaded = [ ]
