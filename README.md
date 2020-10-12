@@ -15,14 +15,16 @@ python OpenGDC.py [--tumor          [GDC_TUMOR]             ]
                   [--settings       [SETTINGS_FILE]         ]
                   [--verbose        [VERBOSE_FLAG]          ]
 
-optional arguments:
+Optional arguments:
     --after       [AFTER_DATETIME]
     --matrix      [EXPORT_TO_MATRIX]
 
-Both --tumor and --datatype are case sensitive;
-Flags --download and --convert activate the download and conversion of the GDC data;
-At least one flag between --download and --convert must be specified;
-The convertion procedure requires both the --download_dir and --convert-dir, additionally to the --convert flag enabled.
+Notes:
+    - both --tumor and --datatype are case sensitive;
+    - flags --download and --convert activate the download and conversion of the GDC data;
+    - at least one flag between --download and --convert must be specified;
+    - the convertion procedure requires both the --download_dir and --convert-dir, 
+      additionally to the --convert flag enabled.
 ```
 
 ### Credits
