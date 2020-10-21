@@ -25,6 +25,12 @@ Notes:
     - at least one flag between --download and --convert must be specified;
     - the convertion procedure requires both the --download_dir and --convert-dir, 
       additionally to the --convert flag enabled.
+
+WARNING:
+    --matrix still must be implemented
+    --datatype supports only
+        - "Methylation Beta Value"
+        - "Clinical and Biospecimen Supplements"
 ```
 
 ### Credits
