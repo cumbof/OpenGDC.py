@@ -2,12 +2,16 @@
 
 __author__ = ('Fabio Cumbo (fabio.cumbo@unitn.it)')
 __version__ = '0.01'
-__date__ = 'Oct 10, 2020'
+__date__ = 'Oct 21, 2020'
 
 import os, requests, utils
 import driver.gencode as gencode
 import driver.ncbi as ncbi
 import driver.hgnc as hgnc
+
+# Define supported input file extensions
+def supported_ext( ):
+    return [ "txt" ]
 
 # header.schema definition
 def dump_schema( convert_dir ):
@@ -42,6 +46,8 @@ def dump_schema( convert_dir ):
 def convert( datatype, filepath, outdir, settings, resources={ }, verbose=False ):
     # File uuid is prepended to the file name and it is separated from the original file name by an underscore
     file_uuid = os.path.basename( filepath ).split( '_' )[ 0 ]
+    if verbose:
+        print( "\tProcessing {}".format( file_uuid ) )
     # Prepare a payload
     # aliquot_id is the field that must be retrieved
     fields = "cases.samples.portions.analytes.aliquots.aliquot_id"
