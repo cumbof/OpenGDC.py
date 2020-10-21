@@ -2,11 +2,13 @@
 
 __author__ = ('Fabio Cumbo (fabio.cumbo@unitn.it)')
 __version__ = '0.01'
-__date__ = 'Oct 10, 2020'
+__date__ = 'Oct 21, 2020'
 
 import sys, os, time, yaml, utils
 import argparse as ap
 from pathlib import Path
+
+import parser.metadata as metadata
 
 def read_params():
     p = ap.ArgumentParser( description = ( 'The OpenGDC.py script to extract, extend, and convert public genomic '
@@ -78,14 +80,17 @@ if __name__ == '__main__':
         # Create download directory if it does not exist
         if not os.path.exists( args.download_dir ):
             os.mkdir( args.download_dir )
-        # Start downloading data
-        downloaded = utils.download( args.tumor.upper(), args.datatype, args.download_dir, 
-                                     after_datetime=args.after, settings=settings, verbose=args.verbose )
+        datatypes = [ "Clinical Supplement", "Biospecimen Supplement" ] if "clinical" in args.datatype.lower() else [ args.datatype ]
+        for datatype in datatypes:
+            # Start downloading data
+            downloaded = utils.download( args.tumor.upper(), datatype, args.download_dir, 
+                                        after_datetime=args.after, settings=settings, verbose=args.verbose )
     else:
         # If the download is not enabled, search for files into the download directory
         if os.path.exists( args.download_dir ):
-            downloaded = list( Path( args.download_dir ).glob( '*.*' ) )
-    
+            supported_files = utils.supproted_ext( args.datatype )
+            downloaded = [ filepath for filepath in  list( Path( args.download_dir ).glob( '*.*' ) ) if os.path.splitext( filepath )[ -1 ][1:] in supported_files ]
+
     # If the download directory is empty, exit
     if not downloaded:
         if args.verbose:
@@ -110,17 +115,32 @@ if __name__ == '__main__':
         # Write header.schema file with info about bed file columns
         utils.dump_schema( args.datatype, args.convert_dir )
 
+        if "clinical" in args.datatype.lower():
+            clinical_map = { }
+            biospecimen_map = { }
         # Start converting files in downloaded list
         for filepath in downloaded:
             print( "Converting {}".format( filepath ) )
             # Iteratively update resources if required
             converted, outfilepath, resources = utils.convert( args.datatype, filepath, args.convert_dir, 
-                                                  settings, resources=resources, verbose=args.verbose )
-            if converted:
+                                                               settings, resources=resources, verbose=args.verbose )
+            if "clinical" in args.datatype.lower():
+                # "resources" contains clinical and biospecimen partial dictionaries
+                if "org_clinical." in os.path.basename( filepath ):
+                    clinical_map = { **clinical_map, **resources }
+                    # Re-initialise resources
+                    resources = { }
+                elif "org_biospecimen." in os.path.basename( filepath ):
+                    biospecimen_map = { **biospecimen_map, **resources }
+                    # Re-initialise resources
+                    resources = { }
+            if converted and "clinical" not in args.datatype.lower():
                 converted_filepaths.append( outfilepath )
+        if "clinical" in args.datatype.lower():
+            metadata.build_metadata( args.convert_dir, clinical_map, biospecimen_map, verbose=args.verbose )
     else:
         # If the conversion is not enabled, search for files into the convert directory
-        if os.path.exists( args.convert_dir ):
+        if os.path.exists( args.convert_dir ) and "clinical" not in args.datatype.lower():
             converted_filepaths = list( Path( args.convert_dir ).glob( '*.bed' ) )
     
     if converted_filepaths:

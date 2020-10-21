@@ -2,12 +2,13 @@
 
 __author__ = ('Fabio Cumbo (fabio.cumbo@unitn.it)')
 __version__ = '0.01'
-__date__ = 'Oct 10, 2020'
+__date__ = 'Oct 21, 2020'
 
 import os, requests
 
 # Import supported GDC data parsers
 import parser.methylation as methylation
+import parser.metadata as metadata
 
 # Load drivers for external assets
 import driver.gencode as gencode
@@ -16,7 +17,8 @@ import driver.hgnc as hgnc
 
 # Define the set of available parsers
 PARSERS = {
-    'Methylation Beta Value': methylation
+    'Methylation Beta Value': methylation,
+    'Clinical and Biospecimen Supplements': metadata
 }
 
 # Download data from the Genomic Data Commons
@@ -198,6 +200,13 @@ def load_resources( datatype, settings, verbose=False ):
 
 # Dump the header.schema with the definition of the fields in the converted files
 def dump_schema( datatype, convert_dir ):
-    # Run a specific parser according to the specified "datatype"
+    # Invoke a specific parser according to the specified "datatype"
     if datatype in PARSERS:
         PARSERS[ datatype ].dump_schema( convert_dir )
+
+# Return a list of supported input data types
+def supproted_ext( datatype ):
+    # Invoke a specific parser according to the specified "datatype"
+    if datatype in PARSERS:
+        return PARSERS[ datatype ].supported_ext()
+    return "*"
