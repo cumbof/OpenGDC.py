@@ -53,8 +53,8 @@ def convert( datatype, filepath, outdir, settings, resources={ }, verbose=False 
                     aliquots = [ biospecimen[ keypathstr ] ]
                     if keypath[ 4 ] in samples:
                         aliquots = samples[ keypath[ 4 ] ] + aliquots
-                    samples[ keypath[ 4 ] ] = aliquots
-            for sample_id in range( len( samples ) ):
+                    samples[ keypath[ 4 ] ] = aliquots            
+            for sample_id in samples:
                 sample_type_id_pathstr = "__".join( [ 'bio:tcga_bcr', 'bio:patient', 'bio:samples', 
                                                      'bio:sample', str(sample_id), 'bio:sample_type_id', '#text' ] )
                 tissue_status = None
