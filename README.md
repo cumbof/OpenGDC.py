@@ -1,5 +1,5 @@
 # OpenGDC
-Python implementation of the OpenGDC software https://github.com/fabio-cumbo/OpenGDC
+This is the Python implementation of the original OpenGDC Java software https://github.com/fabio-cumbo/OpenGDC
 
 ### Usage
 
