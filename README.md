@@ -1,4 +1,4 @@
-# OpenGDC
+# OpenGDC.py
 This is the Python implementation of the original OpenGDC Java software https://github.com/fabio-cumbo/OpenGDC
 
 ### Usage
